@@ -1,0 +1,583 @@
+@font-face {
+  font-family: 'Futura-Light';
+  src: url('./assets/fonts/Futura-Light-font.ttf') format('truetype'); 
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border: none;
+  font-size: 18px;
+  font-family: sans-serif;
+}
+
+html,body {
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  height: 100%;
+}
+
+a img {
+  border-style: none;
+  border: none;
+}
+
+.flex {
+  display: flex;
+}
+
+/* リンク風ボタンのスタイル */
+.link-button {
+  background: none;
+  border: none;
+  color: #007bff; /* リンク風の青色 */
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
+.link-button:hover {
+  color: #0056b3; /* ホバー時の色 */
+  text-decoration: none;
+}
+
+.header {
+  background-color: white;
+}
+
+.header-top {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.header-line {
+  padding-left: 20px;
+  display: flex;
+  height: 60px;
+  background-color: #c80f1e;
+  margin-bottom: 10px;
+  align-items: center; /* 垂直方向に中央配置 */
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+.header-text {
+  letter-spacing: 10px;
+  font-size: 18px;
+  margin-left: 30px;
+  font-family: Futura-Light, sans-serif;
+}
+
+.breadcrumb {
+  font-size: 14px;
+  color: #ffff;
+}
+
+.breadcrumb-item {
+  margin-right: 5px;
+}
+
+.breadcrumb-link {
+  text-decoration: underline;
+}
+
+.main-container {
+  height: 100%;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.company-card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.simulation-button {
+  margin-top: 10px;
+  background-color: #c80f1e;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.simulation-button:hover {
+  background-color: #27ae60;
+}
+
+.interview-simulation-page {
+  font-family: Arial, sans-serif;
+}
+
+.company-list {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.voice-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.text-input {
+  background-color: #ffff;
+  height: 100px;
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.voice-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.voice-button,
+.send-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.voice-button img,
+.send-button img {
+  width: 30px;
+  height: auto;
+  background: none;
+  box-shadow: none;
+}
+
+.chat-container {
+  margin-bottom: 20px;
+  max-height: 60vh;;
+  overflow-y: auto;
+}
+
+.chat-messages {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.chat-message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.ai-message {
+  justify-content: flex-start;
+}
+
+.user-message {
+  justify-content: flex-end;
+}
+
+.ai-bubble {
+  display: flex;
+  align-items: center;
+}
+
+.user-bubble {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.ai-message-bubble {
+  background-color: #ffff;
+  color: #000;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  word-wrap: break-word;
+  display: inline-block;
+  overflow-wrap: break-word;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  white-space: pre-wrap;
+}
+
+.user-message-bubble {
+  background-color: #ffff;
+  color: #000;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  word-wrap: break-word;
+  display: inline-block;
+  overflow-wrap: break-word;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+.admin-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.admin-table-container {
+  margin-top: 20px;
+  border: 2px solid #ddd;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.admin-table tr {
+  background-color: #c80f1e;
+}
+
+.admin-table thead {
+  color: #f1f1f1;
+}
+
+.admin-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.admin-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.admin-table tbody tr:hover {
+  background-color: #ffe0e6; 
+  transform: scale(1.02); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.advice-container {
+  align-items: center;
+  display: flex;
+}
+
+.advice-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.3s ease;
+}
+
+.result-button {
+  background-color: #c80f1e;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nav-links {
+  margin-left: auto;
+}
+
+.nav-link {
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+  margin-left: 15px;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.ai-image {
+  margin-right: 10px;
+  width: 60px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.user-image {
+  margin-left: 10px;
+  width: 60px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.recording-area {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.recording-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.record-button img,
+.stop-button img,
+.trash-button img,
+.sendvoice-button img {
+  cursor: pointer;
+  border: none;
+}
+
+.recording-area p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size:40px;
+  width:40px;
+  height:10px;
+}
+
+.simulation-info {
+  width:80%;
+  background-color: ;
+}
+
+.simulation-info-modal {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 500px;
+  z-index: 1000;
+}
+
+.simulation-info-content {
+  text-align: center;
+}
+
+.simulation-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.simulation-question-info {
+  margin-bottom: 15px;
+}
+
+.simulation-point {
+  font-size: 0.9em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.close-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.close-modal-button:hover {
+  color: #ff0000;
+}
+
+.evaluation-section {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.evaluation-section h2 {
+  margin-bottom: 10px;
+}
+
+.evaluation-section h3 {
+  margin-top: 15px;
+}
+
+.evaluation-section ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.back-to-top-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-to-top-button:hover {
+  background-color: #0056b3;
+}
+
+/* スマホサイズの画面でのレスポンシブ対応 */
+@media (max-width: 600px) {
+  .header img {
+    margin: 0;
+  }
+
+  .header-top {
+    display: flex;
+    text-align: center;
+  }
+
+  .header-line {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .logo {
+    width: 40px;
+    margin-bottom: 10px;
+  }
+
+  .breadcrumb {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  .company-list {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .chat-message {
+    font-size: 14px;
+  }
+
+  .ai-message-bubble,
+  .user-message-bubble {
+    max-width: 80%;
+  }
+
+  .text-input {
+    padding: 8px;
+  }
+
+  .simulation-info-modal {
+    width: 90%;
+    top: 20px;
+  }
+
+  .evaluation-section {
+    padding: 15px;
+  }
+
+  .back-to-top-button {
+    padding: 8px 16px;
+  }
+
+  .admin-table-container {
+    max-width:100%;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 1px; 
+    font-size: 6px;
+  }
+
+  .admin-table,
+  .admin-table thead,
+  .admin-table tbody,
+  .admin-table th,
+  .admin-table td,
+  .admin-table tr {
+    display: block;
+  }
+
+  .admin-table thead tr {
+    display: none; /* モバイルではヘッダーを非表示 */
+  }
+
+  .admin-table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 18px; /* モバイル時の文字サイズを大きく */
+  }
+
+  .admin-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 5px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px; /* モバイル時の文字サイズを大きく */
+  }
+
+  .admin-table td::before {
+    content: attr(data-label); /* 各セルにカラム名（ヘッダー）を表示 */
+    font-weight: bold;
+    margin-right: 10px;
+    flex: 1;
+    text-align: left;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label); /* data-label 属性を利用してカラム名を表示 */
+    font-weight: bold;
+    flex: 1;
+    text-align: left;
+  }
+
+  .admin-table td:last-child {
+    border-bottom: none;
+  }
+}

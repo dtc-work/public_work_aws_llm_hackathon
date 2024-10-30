@@ -1,0 +1,8 @@
+fastapi==0.115.*
+uvicorn==0.32.*
+pytz==2024.2
+pydantic-settings==2.6.*
+boto3==1.35.*
+websockets==13.1
+amazon-transcribe==0.6.2
+requests>=2.0.0

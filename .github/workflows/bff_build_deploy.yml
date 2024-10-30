@@ -1,0 +1,104 @@
+name: bff build deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      ENVORONMENT:
+        description: "環境名"
+        required: true
+        default: "prod"
+        type: choice
+        options:
+          - prod
+      FUNCTION:
+        description: "機能名"
+        required: true
+        default: "client"
+        type: choice
+        options:
+          - client
+          - admin
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: set vars
+        run: |
+          PROJECT=interviewai-${{ inputs.ENVORONMENT }}
+          FUNCTION=${PROJECT}-${{ inputs.FUNCTION }}
+          AWS_ID=${{ secrets.AWS_ID }}
+          AWS_REGION=${{ secrets.AWS_REGION }}
+          IMAGE_REG=${AWS_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+          IMAGE_REPOS=${FUNCTION}-ecr
+          echo "PROJECT=$PROJECT" >> $GITHUB_ENV
+          echo "AWS_ID=$AWS_ID" >> $GITHUB_ENV
+          echo "AWS_REGION=$AWS_REGION" >> $GITHUB_ENV
+          echo "IMAGE_REG=$IMAGE_REG" >> $GITHUB_ENV
+          echo "IMAGE=${IMAGE_REG}/${IMAGE_REPOS}" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "ECS_CLUSTER=${FUNCTION}-cluster" >> $GITHUB_ENV
+          echo "ECS_SERVICE=${FUNCTION}-service" >> $GITHUB_ENV
+          echo "ECS_TASK=${FUNCTION}-task" >> $GITHUB_ENV
+          echo "ECS_TASK_JSON=task.json" >> $GITHUB_ENV
+
+      - name: aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ env.AWS_ID }}:role/${{ env.PROJECT }}-oidc-role
+      - name: "aws ECR login"
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: node build
+        working-directory: src/${{ inputs.FUNCTION }}/frontend
+        run: |
+          npm install
+          npm run build
+
+      - name: docker build & push
+        run: |
+          docker build\
+            --platform linux/amd64\
+            --build-arg DISTROLESS_VER=nonroot\
+            --build-arg FUNC_NAME=${{ inputs.FUNCTION }}\
+            --no-cache --force-rm\
+            -f docker_images/app/Dockerfile\
+            -t ${{ env.IMAGE }}:latest .
+          docker build\
+            --platform linux/amd64\
+            --build-arg DISTROLESS_VER=nonroot\
+            --build-arg FUNC_NAME=${{ inputs.FUNCTION }}\
+            --no-cache --force-rm\
+            -f docker_images/app/Dockerfile\
+            -t ${{ env.IMAGE }}:${{ env.IMAGE_TAG }} .
+          docker push ${{ env.IMAGE }}:latest
+          docker push ${{ env.IMAGE }}:${{ env.IMAGE_TAG }}
+
+      - name: タスク定義のダウンロード
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK }} --query taskDefinition\
+            > ${{ env.ECS_TASK_JSON }}
+
+      - name: タスク定義更新
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_JSON }}
+          container-name: ${{ inputs.FUNCTION }}
+          image: ${{ env.IMAGE }}:${{ env.IMAGE_TAG }}
+
+      - name: ECSデプロイ
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
